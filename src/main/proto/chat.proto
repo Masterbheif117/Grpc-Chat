@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "com.example.grpcchat";
+option java_outer_classname = "ChatProto";
+
+/*
+* defining service, using bidirectional streaming due to it being a chat application 
+* so we want real time messaging
+*/
+service ChatService{
+    rpc Chat(stream ChatMessage) returns (stream ChatMessage);
+}
+
+/*
+* we really only care about the user, message and time stamp of the message itesself
+*/
+message ChatMessage{
+    string user = 1;
+    string message = 2;
+    int64 timestamp = 3;
+}

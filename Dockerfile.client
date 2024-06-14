@@ -1,0 +1,11 @@
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:11-jre-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the jar file into the container at /app
+COPY target/grpc-chat-1.0-SNAPSHOT.jar /app/grpc-chat-client.jar
+
+# Run the ChatClient when the container launches
+ENTRYPOINT ["java", "-cp", "grpc-chat-client.jar", "com.example.grpcchat.ChatClient"]

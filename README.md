@@ -10,7 +10,7 @@ This is a simple project that gets me comfortable with gRPC and docker. The appl
     -run the build script as follows "./build.sh"
 3. **Run the client/clients**
     -The server should be running. After the server is running, you can start the client or clients on a new terminal.
-    -For each new client, open a new terminal
+    -For each new client, open a new terminal (open two new terminals to be able to start a conversation with two "users")
     -The command to run a client is : "docker-compose run grpc-chat-client"
 ## Extra Info
 

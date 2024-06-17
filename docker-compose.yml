@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  chatserver:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - "31415:31415"
+    networks:
+      - chatnet
+
+  chatclient:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    depends_on:
+      - chatserver
+    networks:
+      - chatnet
+    stdin_open: true  # Keeps stdin open so you can interact with the container
+    tty: true         # Allocates a pseudo-TTY
+
+networks:
+  chatnet:

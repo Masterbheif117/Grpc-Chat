@@ -1,11 +1,19 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:11-jre-slim
+# Use the official Ubuntu image as a parent image
+FROM ubuntu:latest
+
+# Install OpenJDK, Maven, and other necessary packages
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jdk maven && \
+    apt-get clean;
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the jar file into the container at /app
-COPY target/grpc-chat-1.0-SNAPSHOT.jar /app/grpc-chat-client.jar
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Run the ChatClient when the container launches
-ENTRYPOINT ["java", "-cp", "grpc-chat-client.jar", "com.example.grpcchat.ChatClient"]
+# Build the application using Maven
+RUN mvn clean package
+
+# Run the client
+CMD ["java", "-cp", "target/grpc-chat-1.0-SNAPSHOT.jar", "com.example.grpcchat.ChatClient"]

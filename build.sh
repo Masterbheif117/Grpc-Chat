@@ -1,25 +1,16 @@
 #!/bin/bash
 
-# clean and build maven project
+# Stop and remove any running containers
+docker-compose down --remove-orphans
 
-echo "cleaning and building maven project "
-mvn clean install
+# Build the Docker images
+docker-compose build
 
-# build the docker images for server and client side
-echo "building Docker images for server and client ..."
-docker build -t grpc-chat-server -f Dockerfile.server .
-docker build -t grpc-chat-client -f Dockerfile.client .
+# Start the server container in detached mode to run in the background
+docker-compose up -d chatserver
 
-
-# run the server container
-# -network lets the us use the host network, allows local host to communicate w host
-echo "Running the server container .."
-docker run -d --name grpc-server --network host grpc-chat-server
-
-echo "server is now running. You can start the client/clients using the following command in a new terminal (for each client make a new terminal)"
-# -it allows us to use the container within the terminal
-# --rm removes the container once we type in exit and shutdown the container
-echo "docker run -it --rm --network host grpc-chat-client"
-
+# to interact with the client 
+echo "to run the client service interactively use in a new terminal (run this command in each new terminal you open for a client):"
+echo "docker-compose run grpc-chat-client"
 
 
